@@ -1,3 +1,5 @@
+![Silent;Call](banner.png)
+
 # Cisco Security Research
 
 **Researcher:** 0xReadingSteiner
