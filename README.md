@@ -28,8 +28,8 @@ Cisco's refusal to engage leaves enterprise defenders blind. These advisories ex
 
 | Product | Role | Status |
 |---------|------|--------|
-| **Cisco Unified Communications Manager (CUCM) 15.x** | Enterprise voice call processing | Active — 55+ vulnerabilities identified, 2 kill chains published |
-| **Cisco Expressway X14.x** | Collaboration edge / traversal proxy | Active — Blind;Wire published (pre-auth SIP smuggling) |
+| **Cisco Unified Communications Manager (CUCM) 15.x** | Enterprise voice call processing | Active — 55+ vulnerabilities identified, 3 kill chains published (incl. cross-product False;Relay) |
+| **Cisco Expressway X14.x / X15.x** | Collaboration edge / traversal proxy | Active — Blind;Wire (pre-auth SIP smuggling) + False;Relay (MRA corridor chain) published |
 | **Cisco Firepower Threat Defense (FTD)** | Next-gen firewall / IPS | Upcoming |
 
 ---
@@ -51,6 +51,12 @@ Each advisory combines multiple vulnerabilities into a complete attack narrative
 |---|------|------------|---------|----------|------|
 | 02 | [**Blind;Wire**](https://github.com/0xReadingSteiner/Blind-Wire) | Zerohack | Pre-authentication SIP request smuggling — `Content-Length: 2³²` wraps to 0, turning the edge proxy into a policy-blind tunnel | 8.1 | 2026-08-10 |
 
+### Cross-product (Expressway + CUCM)
+
+| # | Name | Components | Summary | CVSSv3.1 | Date |
+|---|------|------------|---------|----------|------|
+| 04 | [**False;Relay**](https://github.com/0xReadingSteiner/False-Relay) | Blankhack → Seedhack → corridor → Badgehack (＋ Splithack / Wraphack / Namehack) | MRA corridor abuse — presence-only edge gate + zero-auth relay-credential seeding + cluster-key identity forgery: internet-origin pre-auth CUCM data (200 live UDS XML) and forged-Bearer SSO-session acceptance, proven live end-to-end on both a seeded path and a pure-real-credential path. Zero fail2ban ticks on the success path. | 9.1 (composed) / 8.5 (one MRA account) | 2026-09-27 |
+
 *Additional kill chains will be published on a rolling basis.*
 
 ---
@@ -68,12 +74,18 @@ Each kill chain is composed of individual vulnerabilities, documented separately
 | [SKYLINE-2026-003](vulns/SKYLINE-2026-003.md) | Roothack | Multiple Unrestricted Sudo Privilege Escalation Paths | CWE-269 | Silent;Call |
 | [SKYLINE-2026-057a](vulns/SKYLINE-2026-057a.md) | Deployhack | Apache Axis AdminService Arbitrary Class Deployment | CWE-306 | Dead;Dial |
 | [SKYLINE-2026-057b](vulns/SKYLINE-2026-057b.md) | Lookaphack | JNDI Injection via Deployed SOAP Service | CWE-502 | Dead;Dial |
+| [SKYLINE-2026-004](vulns/SKYLINE-2026-004.md) | Badgehack | Forged Bearer Access-Token Acceptance via Cluster-Key Identity Forgery | CWE-287 | False;Relay |
 
 ### Expressway
 
 | ID | Name | Title | CWE | Used In |
 |----|------|-------|-----|---------|
 | [SKYLINE-2026-056](vulns/SKYLINE-2026-056.md) | Zerohack | Content-Length Integer Overflow (2³² → 0) in SIP Parser | CWE-190 | Blind;Wire |
+| [SKYLINE-2026-005](vulns/SKYLINE-2026-005.md) | Blankhack | Presence-Only Session-Cookie Gate on the Internet-Facing MRA Edge | CWE-287 | False;Relay |
+| [SKYLINE-2026-006](vulns/SKYLINE-2026-006.md) | Seedhack | Zero-Auth Relay-Credential Seeding via Expressway-C CDB | CWE-306 | False;Relay |
+| [SKYLINE-2026-007](vulns/SKYLINE-2026-007.md) | Splithack | Chunk-Extension Request Smuggling Live on the MRA Edge (CVE-2026-24033/57834 class) | CWE-444 | False;Relay |
+| [SKYLINE-2026-008](vulns/SKYLINE-2026-008.md) | Wraphack | Content-Length int64 Wraparound + Backend-Leg Smuggled-Request Delivery | CWE-190 | False;Relay |
+| [SKYLINE-2026-009](vulns/SKYLINE-2026-009.md) | Namehack | uint16 Header-Name Truncation / Aliasing Across the Full MRA Chain (CVE-2026-58155 class) | CWE-197 | False;Relay |
 
 ---
 

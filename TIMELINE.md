@@ -25,6 +25,9 @@ This document records all attempts to coordinate the disclosure of 55 vulnerabil
 | 2026-08-10 | Cisco PSIRT notified of the Expressway finding; CVE ID requested from MITRE (CNA of Last Resort). No response to date. |
 | 2026-08-10 | Drop 02 published — Blind;Wire (Expressway X14.x SIP request smuggling). |
 | 2026-08-10 | Drop 03 published — Dead;Dial: pre-auth RCE via Apache Axis AdminService + JNDI injection in CUCM WebDialer (SKYLINE-2026-057a/b), live-confirmed 2026-08-01. Independent path — survives Silent;Call credential rotation. |
+| 2026-06 → 2026-09 | Expressway MRA corridor research: edge remap/plugin chain mapped on X15.5.1; carrier access model resolved; 38/38 upstream ATS CVE corpus adjudicated against the Cisco rebuild; chunk-extension smuggling (Splithack) and Content-Length int64 wrap with backend-leg delivery (Wraphack) demonstrated live; uint16 header-name aliasing (Namehack) proven end-to-end with dual-box log correlation; CUCM Bearer token format fully resolved from product code; offline forge harness validated 6/6 against the product's own validator oracle. |
+| 2026-09-27 | False;Relay chain fired live end-to-end from the internet side of the edge, both paths: seeded relay credential (zero MRA accounts) and production-faithful (one legitimate MRA login). Observed: HTTP 200 with live internal UDS XML out of the LAN; CUCM SSO filter issuing JSESSIONIDSSO for a forged `sub=administrator` Bearer. Zero fail2ban ticks, zero bans on the success path. Full teardown verified (planted record deleted — census 0; runtime knobs restored; secrets destroyed). |
+| 2026-09-27 | Drop 04 published — False;Relay (SKYLINE-2026-004→009). Components 004–006 to be submitted to Cisco PSIRT; 007–009 document Cisco product exposure to upstream Apache ATS CVE classes with live confirmation. |
 
 ## Note
 
