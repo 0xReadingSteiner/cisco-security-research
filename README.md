@@ -55,7 +55,7 @@ Each advisory combines multiple vulnerabilities into a complete attack narrative
 
 | # | Name | Components | Summary | CVSSv3.1 | Date |
 |---|------|------------|---------|----------|------|
-| 04 | [**False;Relay**](https://github.com/0xReadingSteiner/False-Relay) | Blankhack → Seedhack → corridor → Badgehack (＋ Splithack / Wraphack / Namehack) | MRA corridor abuse — presence-only edge gate + zero-auth relay-credential seeding + cluster-key identity forgery: internet-origin pre-auth CUCM data (200 live UDS XML) and forged-Bearer SSO-session acceptance, proven live end-to-end on both a seeded path and a pure-real-credential path. Zero fail2ban ticks on the success path. | 9.1 (composed) / 8.5 (one MRA account) | 2026-09-27 |
+| 04 | [**False;Relay**](https://github.com/0xReadingSteiner/False-Relay) | Blankhack → Seedhack → corridor → Badgehack (＋ Splithack / Wraphack / Namehack) | MRA corridor abuse — presence-only edge gate + zero-auth relay-credential seeding + cluster-key identity forgery: internet-origin pre-auth CUCM data (200 live UDS XML) and forged-Bearer SSO-session acceptance, proven live end-to-end on both a seeded path and a pure-real-credential path. 2026-09-28 extension: the UDS user-resource gate resolved — a `sub`-matched forged token reads any user's record and writes its PIN/credentials from the internet (204, database-verified); per-user account takeover, silent, all-2xx. Zero fail2ban ticks on the success path. | 10.0 (composed) / 8.5 (one MRA account) | 2026-09-27 |
 
 *Additional kill chains will be published on a rolling basis.*
 
