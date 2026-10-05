@@ -29,7 +29,7 @@ Cisco's refusal to engage leaves enterprise defenders blind. These advisories ex
 | Product | Role | Status |
 |---------|------|--------|
 | **Cisco Unified Communications Manager (CUCM) 15.x** | Enterprise voice call processing | Active — 55+ vulnerabilities identified, 3 kill chains published (incl. cross-product False;Relay) |
-| **Cisco Expressway X14.x / X15.x** | Collaboration edge / traversal proxy | Active — Blind;Wire (pre-auth SIP smuggling) + False;Relay (MRA corridor chain) published |
+| **Cisco Expressway X14.x / X15.x** | Collaboration edge / traversal proxy | Active — Blind;Wire (pre-auth SIP smuggling) + False;Relay (MRA corridor chain) + Null;Tone (pre-auth component-bus saturation, C and E) published |
 | **Cisco Firepower Threat Defense (FTD)** | Next-gen firewall / IPS | Upcoming |
 
 ---
@@ -50,6 +50,7 @@ Each advisory combines multiple vulnerabilities into a complete attack narrative
 | # | Name | Components | Summary | CVSSv3.1 | Date |
 |---|------|------------|---------|----------|------|
 | 02 | [**Blind;Wire**](https://github.com/0xReadingSteiner/Blind-Wire) | Zerohack | Pre-authentication SIP request smuggling — `Content-Length: 2³²` wraps to 0, turning the edge proxy into a policy-blind tunnel | 8.1 | 2026-08-10 |
+| 05 | [**Null;Tone**](https://github.com/0xReadingSteiner/Null-Tone) | Squathack → Burnhack | Pre-auth XCP component-bus blackout on **both C and E** — name-squat any component id + Θ(n²) depth-bomb (limits hardcoded 0/0, no operator knob) saturates both cores at ~10 KB/s sustained; :7400 has no fail2ban coverage; live-verified 2026-10-05 on two production-version appliances (ΔCPU +218.6 s / +92 s, probes 0.00 s→18.18 s, clean pid-continuous recovery) | 8.2 | 2026-10-05 |
 
 ### Cross-product (Expressway + CUCM)
 
@@ -86,6 +87,8 @@ Each kill chain is composed of individual vulnerabilities, documented separately
 | [SKYLINE-2026-007](vulns/SKYLINE-2026-007.md) | Splithack | Chunk-Extension Request Smuggling Live on the MRA Edge (CVE-2026-24033/57834 class) | CWE-444 | False;Relay |
 | [SKYLINE-2026-008](vulns/SKYLINE-2026-008.md) | Wraphack | Content-Length int64 Wraparound + Backend-Leg Smuggled-Request Delivery | CWE-190 | False;Relay |
 | [SKYLINE-2026-009](vulns/SKYLINE-2026-009.md) | Namehack | uint16 Header-Name Truncation / Aliasing Across the Full MRA Chain (CVE-2026-58155 class) | CWE-197 | False;Relay |
+| [SKYLINE-2026-010](vulns/SKYLINE-2026-010.md) | Squathack | Pre-Auth Component-Name Claim on the Externally Bound XCP Bus (:7400) | CWE-306 | Null;Tone |
+| [SKYLINE-2026-011](vulns/SKYLINE-2026-011.md) | Burnhack | Pre-Auth Θ(n²) XML Depth Saturation of the Whole Appliance via :7400 | CWE-400 / CWE-407 | Null;Tone |
 
 ---
 
